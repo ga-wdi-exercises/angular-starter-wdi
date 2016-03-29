@@ -11,14 +11,24 @@
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="js/app.js"></script>
+  <script>
+    angular
+    .module("sh",[])
+    .controller("superherosController", [function(){
+      this.superheros = superheroList;
+      this.show = function(hero){
+       this.hero = hero;
+      }
+    }])
+  </script>
 </head>
-<body>
+<body ng-app="sh" ng-controller="superherosController as vm">
   <h1>Superheroes</h1>
   <div class="picture">
-    Picture:
+    Picture: <img src='{{vm.hero.img}}'>
   </div>
   <div class="search">
-    Search:
+    Search: <input ng-model="query">
   </div>
   <table class="table">
     <thead>
@@ -28,7 +38,12 @@
         <th></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody >
+      <tr ng-repeat="hero in vm.superheros | filter:query" class="{{hero.group | lowercase}}">
+        <td>{{hero.name}}<button ng-click="vm.show(hero)">Show</button</td>
+        <td>{{hero.number}}</td>
+        <td>{{hero.group}}</td>
+      </tr>
     </tbody>
   </table>
 </body>
